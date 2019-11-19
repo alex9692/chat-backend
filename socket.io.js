@@ -13,12 +13,14 @@ io.on('connection', function(socket) {
   socket.on('disconnect', function() {
     console.log('User disconnected');
   });
+  socket.on('log-out',async function(data) {
+    const user = await User.findById(data);
+    console.log('User logged out ' + user.username);
+  });
   socket.on('connection-established', async function(data) {
     const user = await User.findById(data);
-    console.log('User connected ' + user.username);
-    socket.on('disconnect', function() {
-      console.log('User disconnected' + user.username);
-    });
+    console.log('User logged in ' + user.username);
+
   });
   socket.on('get-message-id', async function(id) {
     const message = await Message.findById(id)
